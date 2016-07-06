@@ -22,14 +22,15 @@ namespace MongoDBApp
 
         public static void Run()
         {
+            Console.WriteLine("Insert.");
             InsertData();
             Console.WriteLine(ReadData().ToString());
             Console.WriteLine("Program done.");
+            Console.WriteLine("Done reading.");
         }
 
         public static async Task<List<BsonDocument>> ReadData()
         {
-            Console.WriteLine("Done inserting. Begin reading.");
             var collection = _database.GetCollection<BsonDocument>("restaurants");
             var filter = Builders<BsonDocument>.Filter.Eq("borough", "Manhattan");
             var result = await collection.Find(filter).ToListAsync();
@@ -38,7 +39,6 @@ namespace MongoDBApp
 
         public static async void InsertData()
         {
-            Console.WriteLine("Inserting.");
             var document = new BsonDocument
             {
                 { "address" , new BsonDocument
@@ -71,8 +71,72 @@ namespace MongoDBApp
                 { "restaurant_id", "41704620" }
             };
 
+            var document2 = new BsonDocument
+            {
+                { "address" , new BsonDocument
+                    {
+                        { "street", "N Market St" },
+                        { "zipcode", "21701" },
+                        { "building", "105" }
+                    }
+                },
+                { "borough", "Frederick" },
+                { "cuisine", "New American" },
+                { "grades", new BsonArray
+                    {
+                        new BsonDocument
+                        {
+                            { "date", new DateTime(2015, 11, 12, 0, 0, 0, DateTimeKind.Utc) },
+                            { "grade", "A" },
+                            { "score", 10 }
+                        },
+                        new BsonDocument
+                        {
+                            { "date", new DateTime(2016, 3, 27, 0, 0, 0, DateTimeKind.Utc) },
+                            { "grade", "A" },
+                            { "score", 11 }
+                        }
+                    }
+                },
+                { "name", "Firestone" },
+                { "restaurant_id", "41705913" }
+            };
+
+            var document3 = new BsonDocument
+            {
+                { "address" , new BsonDocument
+                    {
+                        { "street", "9th Ave" },
+                        { "zipcode", "10019" },
+                        { "building", "836" }
+                    }
+                },
+                { "borough", "New York" },
+                { "cuisine", "Bacon" },
+                { "grades", new BsonArray
+                    {
+                        new BsonDocument
+                        {
+                            { "date", new DateTime(2014, 10, 21, 0, 0, 0, DateTimeKind.Utc) },
+                            { "grade", "B" },
+                            { "score", 17 }
+                        },
+                        new BsonDocument
+                        {
+                            { "date", new DateTime(2015, 12, 5, 0, 0, 0, DateTimeKind.Utc) },
+                            { "grade", "B" },
+                            { "score", 16 }
+                        }
+                    }
+                },
+                { "name", "BarBacon" },
+                { "restaurant_id", "41749267" }
+            };
+
             var collection = _database.GetCollection<BsonDocument>("restaurants");
             await collection.InsertOneAsync(document);
+            await collection.InsertOneAsync(document2);
+            await collection.InsertOneAsync(document3);
         }
     }
 }
