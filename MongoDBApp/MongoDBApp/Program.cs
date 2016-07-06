@@ -12,9 +12,8 @@ namespace MongoDBApp
     class Program
     {
         protected static IMongoClient _client = new MongoClient("mongodb://db1.example.net:2500/?replicaSet=test");
+        //protected static IMongoClient _client = new MongoClient("mongodb://10.10.19.12:27017");
         protected static IMongoDatabase _database = _client.GetDatabase("test");
-
-       
 
         static void Main(string[] args)
         {
@@ -24,18 +23,17 @@ namespace MongoDBApp
         public static void Run()
         {
             InsertData();
-            ReadData();
+            Console.WriteLine(ReadData().ToString());
+            Console.WriteLine("Program done.");
         }
 
-        public static async void ReadData()
+        public static async Task<List<BsonDocument>> ReadData()
         {
             Console.WriteLine("Done inserting. Begin reading.");
             var collection = _database.GetCollection<BsonDocument>("restaurants");
             var filter = Builders<BsonDocument>.Filter.Eq("borough", "Manhattan");
-            Console.WriteLine("Awaiting a method");
             var result = await collection.Find(filter).ToListAsync();
-            Console.WriteLine(result.ToString());
-            Console.WriteLine("Done reading.");
+            return result;
         }
 
         public static async void InsertData()
