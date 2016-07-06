@@ -135,6 +135,7 @@ namespace MongoDBApp
             var collection = _database.GetCollection<BsonDocument>("restaurants");
             await collection.InsertOneAsync(document);
             await collection.InsertOneAsync(document2);
+            await collection.InsertOneAsync(document3);
         }
     }
 }
