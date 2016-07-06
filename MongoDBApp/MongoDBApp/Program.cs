@@ -11,7 +11,7 @@ namespace MongoDBApp
 {
     class Program
     {
-        protected static IMongoClient _client = new MongoClient("mongodb://db1.example.net");
+        protected static IMongoClient _client = new MongoClient("mongodb://db1.example.net:2500/?replicaSet=test");
         protected static IMongoDatabase _database = _client.GetDatabase("test");
 
        
