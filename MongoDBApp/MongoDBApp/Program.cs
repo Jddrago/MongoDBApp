@@ -5,14 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using FluentAssertions;
 
 
 namespace MongoDBApp
 {
     class Program
     {
-        protected static IMongoClient _client = new MongoClient("mongodb://db1.example.net");
+        protected static IMongoClient _client = new MongoClient("mongodb://db1.example.net:2500/?replicaSet=test");
         protected static IMongoDatabase _database = _client.GetDatabase("test");
 
        
