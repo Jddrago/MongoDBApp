@@ -23,24 +23,23 @@ namespace MongoDBApp
 
         public static void Run()
         {
+            Console.WriteLine("Insert.");
             InsertData();
+            Console.WriteLine("Done inserting. Begin reading.");
             ReadData();
+            Console.WriteLine("Done reading.");
         }
 
         public static async void ReadData()
         {
-            Console.WriteLine("Done inserting. Begin reading.");
             var collection = _database.GetCollection<BsonDocument>("restaurants");
             var filter = Builders<BsonDocument>.Filter.Eq("borough", "Manhattan");
-            Console.WriteLine("Awaiting a method");
             var result = await collection.Find(filter).ToListAsync();
             Console.WriteLine(result.ToString());
-            Console.WriteLine("Done reading.");
         }
 
         public static async void InsertData()
         {
-            Console.WriteLine("Inserting.");
             var document = new BsonDocument
             {
                 { "address" , new BsonDocument
