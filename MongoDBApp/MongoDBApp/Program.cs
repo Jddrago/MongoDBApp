@@ -24,20 +24,20 @@ namespace MongoDBApp
         {
             Console.WriteLine("Insert.");
             InsertData();
-            Console.WriteLine(ReadData().ToString());
+            Console.WriteLine("Test query " + ReadData().ToString());
+            MongoDBApp._11_b.Query();
             Console.WriteLine("Program done.");
-            Console.WriteLine("Done reading.");
         }
 
-        public static async Task<List<BsonDocument>> ReadData()
+        public static Task<List<BsonDocument>> ReadData()
         {
             var collection = _database.GetCollection<BsonDocument>("restaurants");
             var filter = Builders<BsonDocument>.Filter.Eq("borough", "Manhattan");
-            var result = await collection.Find(filter).ToListAsync();
+            var result = collection.Find(filter).ToListAsync();
             return result;
         }
 
-        public static async void InsertData()
+        public static void InsertData()
         {
             var document = new BsonDocument
             {
@@ -134,9 +134,9 @@ namespace MongoDBApp
             };
 
             var collection = _database.GetCollection<BsonDocument>("restaurants");
-            await collection.InsertOneAsync(document);
-            await collection.InsertOneAsync(document2);
-            await collection.InsertOneAsync(document3);
+            collection.InsertOneAsync(document);
+            collection.InsertOneAsync(document2);
+            collection.InsertOneAsync(document3);
         }
     }
 }
