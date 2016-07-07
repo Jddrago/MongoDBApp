@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace MongoDBApp
 {
-    class _11_e
+    class _11_e: Program
     {
         IMongoCollection<BsonDocument> LocalCollection = Program._database.GetCollection<BsonDocument>("restaurants");
     }
