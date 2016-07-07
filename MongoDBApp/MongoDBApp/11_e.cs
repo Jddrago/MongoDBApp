@@ -11,17 +11,12 @@ namespace MongoDBApp
 {
     class _11_e: Program
     {
-        IMongoCollection<BsonDocument> LocalCollection;
+        IMongoCollection<BsonDocument> LocalCollection = _database.GetCollection<BsonDocument>("restaurants");
 
-        public _11_e(IMongoCollection<BsonDocument> input)
+        public Task<List<BsonDocument>> ListEmpty(String field)
         {
-            IMongoCollection<BsonDocument> LocalCollection = input;
-        }
-
-        public IMongoCollection<BsonDocument> ListEmpty(String field)
-        {
-            IMongoCollection<BsonDocument> MatchingDocs;
-            MatchingDocs = db.LocalCollection.find(field: "");
+            var filter = Builders<BsonDocument>.Filter.Eq(field, "");
+            var MatchingDocs = LocalCollection.Find(filter).ToListAsync();
             return MatchingDocs;
         }
     }
