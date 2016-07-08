@@ -10,20 +10,28 @@ namespace MongoDBApp
 {
     class _11_b: Program
     {
-        public static void Query()
+        public async Task<List<BsonDocument>> Query()
         {
             IMongoCollection<BsonDocument> LocalCollection = Program._database.GetCollection<BsonDocument>("restaurants");
             var filter = Builders<BsonDocument>.Filter.Eq("borough", "Manhattan");
-            var result = LocalCollection.Find(filter).ToList<BsonDocument>();
-
-            foreach (BsonDocument item in result)
+            var count = 0;
+            Console.WriteLine("Begin processing");
+            using (var cursor = await LocalCollection.FindAsync(filter))
             {
-                Console.WriteLine("Processing first document.");
-                    foreach (BsonElement element in item.Elements)
+                Console.WriteLine("hi");
+                while (await cursor.MoveNextAsync())
                 {
-                    Console.WriteLine("Name: {0}, Value: {1}", element.Name, element.Value);
+                    var batch = cursor.Current;
+                    foreach (var document in batch)
+                    {
+                        Console.WriteLine(document.ToJson());
+                        Console.WriteLine(count);
+                        count++;
+                    }
                 }
             }
+            var result = await LocalCollection.Find(filter).ToListAsync();
+            return result;
         }
     }
 }

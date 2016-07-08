@@ -11,8 +11,8 @@ namespace MongoDBApp
 {
     class Program
     {
-        protected static IMongoClient _client = new MongoClient("mongodb://db1.example.net:2500/?replicaSet=test");
-        //protected static IMongoClient _client = new MongoClient("mongodb://10.10.19.12:27017");
+        //protected static IMongoClient _client = new MongoClient("mongodb://db1.example.net:2500/?replicaSet=test");
+        protected static IMongoClient _client = new MongoClient("mongodb://10.10.19.12:27017");
         protected static IMongoDatabase _database = _client.GetDatabase("test");
 
         static void Main(string[] args)
@@ -24,8 +24,11 @@ namespace MongoDBApp
         {
             Console.WriteLine("Insert.");
             InsertData();
-            Console.WriteLine("Test query " + ReadData().ToString());
-            MongoDBApp._11_b.Query();
+            Console.WriteLine("Test query " + ReadData().ToJson());
+            MongoDBApp._11_b b = new _11_b();
+            Console.WriteLine(b.Query().ToJson());
+            MongoDBApp._11_e e = new _11_e();
+            Console.WriteLine(e.ListEmpty("coord").ToJson());
             Console.WriteLine("Program done.");
         }
 
