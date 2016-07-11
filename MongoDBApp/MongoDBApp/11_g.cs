@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using FluentAssertions;
 
 namespace MongoDBApp
 {
@@ -14,7 +15,7 @@ namespace MongoDBApp
                //                              [...]
                //                         Group by state) 
 
-               static void Query()
+        public static async Task<List<BsonDocument>> Query()
         {
             IMongoCollection<BsonDocument> LocalCollection = Program._database.GetCollection<BsonDocument>("restaurants");
             var aggregate = LocalCollection.Aggregate().Group(new BsonDocument { { "_id", "$borough" }, { "count", new BsonDocument("$sum", 1) } });
@@ -29,6 +30,7 @@ namespace MongoDBApp
                 BsonDocument.Parse("{ _id : 'Missing', count : 51 }")
             };
             result.Should().BeEquivalentTo(expectedResults);
+            return result;
         }
     }
 }

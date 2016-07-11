@@ -29,6 +29,7 @@ namespace MongoDBApp
             Console.WriteLine(b.Query().ToJson());
             MongoDBApp._11_e e = new _11_e();
             Console.WriteLine(e.ListEmpty("coord").ToJson());
+            MongoDBApp._11_g.Query();
             Console.WriteLine("Program done.");
         }
 
